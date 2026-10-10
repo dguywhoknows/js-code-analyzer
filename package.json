@@ -1,0 +1,16 @@
+{
+  "name": "js-code-analyzer",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Paste JavaScript and get a live call graph, complexity metrics, and AI explanations, refactors and unit tests.",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "test": "node tests/run-node.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dguywhoknows/js-code-analyzer.git"
+  },
+  "homepage": "https://dguywhoknows.github.io/js-code-analyzer/",
+  "license": "MIT"
+}

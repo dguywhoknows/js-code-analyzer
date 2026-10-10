@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Code Atlas</title>
+<meta name="description" content="Paste JavaScript to get a live call graph, complexity metrics and AI explanations, refactors and unit tests.">
+<meta name="app-repo" content="https://github.com/dguywhoknows/js-code-analyzer">
+<meta name="app-version" content="2.0.0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232563eb'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='Arial%2CHelvetica%2Csans-serif' font-weight='700' font-size='13' fill='white'%3ECA%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/base.css">
+<link rel="stylesheet" href="styles/app.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="logo" aria-hidden="true">CA</span><div><h1>Code Atlas</h1><p>Map any JavaScript file: call graph, complexity, and an AI pair reviewer.</p></div></div>
+  <nav class="topnav" data-nav aria-label="Pages"></nav>
+  <div class="top-actions"><a class="btn ghost sm" href="https://github.com/dguywhoknows/js-code-analyzer" target="_blank" rel="noopener">GitHub</a><span data-ai-badge></span></div>
+</header>
+<div class="page active" data-page="analyze" data-title="Analyze">
+<main class="layout">
+  <section class="card editor-card">
+    <div class="row between"><h2 style="margin:0">Source</h2><div class="row"><label class="btn sm" style="color:var(--text)">Open .js<input type="file" id="file" accept=".js,.mjs,.cjs,.jsx,.ts" hidden></label><button class="btn sm primary" id="analyze">Analyze</button></div></div>
+    <div class="code-wrap">
+      <textarea id="src" spellcheck="false" class="mono"></textarea>
+      <pre id="view" class="code hidden" aria-label="Highlighted source"></pre>
+    </div>
+    <div class="row small muted"><span id="parseStatus">Parsed with acorn (ES2024, module)</span><span class="grow"></span><button class="btn ghost sm" id="toggleView">Edit</button></div>
+  </section>
+  <section class="stack">
+    <div class="grid cols-3" id="tiles"></div>
+    <div class="card">
+      <div class="row between"><h2 style="margin:0">Call graph</h2><span class="small muted">node size = complexity · click a node</span></div>
+      <svg id="graph" class="graph" aria-label="Call graph"></svg>
+    </div>
+    <div class="card">
+      <h2>Functions</h2>
+      <div class="table-wrap"><table id="fnTable"></table></div>
+    </div>
+    <div class="card" id="fnPanel">
+      <div class="empty">Select a function to explain it, get refactoring ideas, or generate unit tests.</div>
+    </div>
+  </section>
+</main>
+</div>
+<div class="page" data-page="project" data-title="Project">
+<main class="stack" style="max-width:1400px">
+  <div class="kpis" id="projKpis"></div>
+  <div class="grid side">
+    <div class="card stack">
+      <div class="row between"><h2 style="margin:0">Files</h2><div class="row"><button class="btn sm" id="addFile">+ File</button><label class="btn sm" style="color:var(--text)">Upload<input type="file" id="uploadFiles" accept=".js,.mjs,.cjs,.jsx" multiple hidden></label></div></div>
+      <div id="fileList"></div>
+      <button class="btn ghost sm" id="resetProject">Load sample project</button>
+    </div>
+    <div class="stack">
+      <div class="card"><h2>Import graph</h2><svg id="importGraph" class="graph" style="height:300px" aria-label="Import graph"></svg><div id="projErrors"></div></div>
+      <div class="card stack">
+        <div class="row"><input class="input mono grow" id="fileName" aria-label="File path"><button class="btn primary sm" id="saveFile">Save &amp; analyze</button><button class="btn ghost sm danger" id="delFile">Remove</button></div>
+        <textarea id="fileSrc" class="mono" spellcheck="false" style="min-height:320px;font-size:12.5px"></textarea>
+      </div>
+    </div>
+  </div>
+</main>
+</div>
+
+<div class="page" data-page="report" data-title="Report">
+<main class="stack">
+  <div class="grid cols-2">
+    <div class="card stack"><div class="row" id="grade"></div><div id="breakdown"></div></div>
+    <div class="card"><h2>Complexity distribution</h2><div id="ccHist"></div></div>
+  </div>
+  <div class="card"><div class="row between"><h2 style="margin:0">Hotspots</h2><div class="row"><button class="btn sm" id="aiSummary">AI summary</button><button class="btn sm ghost" id="exportReport">Export Markdown</button></div></div><div id="aiOut" class="prose" style="margin-top:10px"></div><div class="table-wrap" id="hotspots"></div></div>
+  <div class="card"><h2>Issues</h2><div id="issueList"></div></div>
+</main>
+</div>
+
+<div class="page" data-page="history" data-title="History">
+<main class="stack">
+  <div class="page-head"><div><h2>Health over time</h2><p>Snapshot the project after changes to track whether it is getting simpler.</p></div><button class="btn primary" id="takeSnap">Take snapshot</button></div>
+  <div class="card"><div id="trend"></div></div>
+  <div class="card table-wrap" id="snapList"></div>
+</main>
+</div>
+
+<div class="page" data-page="settings" data-title="Settings"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/acorn/8.19.0/acorn.min.js"></script>
+<script src="src/lib/dom.js"></script>
+<script src="src/lib/ai.js"></script>
+<script src="src/lib/router.js"></script>
+<script src="src/core.js"></script>
+<script src="src/demo.js"></script>
+<script src="src/app.js"></script>
+</body>
+</html>

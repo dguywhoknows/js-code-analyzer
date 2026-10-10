@@ -1,0 +1,36 @@
+:root { --accent: #2563eb; }
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 16px; max-width: 1400px; }
+.editor-card { display: flex; flex-direction: column; gap: 10px; height: calc(100vh - 110px); position: sticky; top: 86px; }
+.code-wrap { flex: 1; min-height: 0; display: flex; }
+#src, .code { flex: 1; height: 100%; margin: 0; font-size: 12.5px; line-height: 1.55; tab-size: 2; white-space: pre; overflow: auto; }
+#src { resize: none; }
+.code { background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; padding: 10px 0; }
+.code .ln { display: block; padding: 0 12px 0 0; }
+.code .ln::before { content: attr(data-n); display: inline-block; width: 38px; padding-right: 10px; text-align: right; color: var(--muted); opacity: .6; user-select: none; }
+.code .ln.hl { background: color-mix(in srgb, var(--accent) 16%, transparent); }
+.tok-k { color: #c2417a; font-weight: 600; }
+.tok-s { color: #1f9d63; }
+.tok-c { color: var(--muted); font-style: italic; }
+.tok-n { color: #c98a0b; }
+.tok-f { color: var(--accent); }
+.graph { width: 100%; height: 360px; display: block; touch-action: none; }
+.graph .gn { cursor: pointer; }
+.graph .gn text { font: 600 11px Inter, sans-serif; fill: var(--text); pointer-events: none; }
+.graph .edge { stroke: var(--muted); stroke-opacity: .45; fill: none; }
+.graph .gn.sel circle { stroke: var(--text); stroke-width: 3; }
+#fnTable tr { cursor: pointer; }
+#fnTable tr:hover td { background: var(--panel-2); }
+#fnTable tr.sel td { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.cx { display: inline-block; min-width: 28px; text-align: center; border-radius: 6px; padding: 1px 6px; font-weight: 700; color: #fff; font-size: 12px; }
+.ai-out pre { max-height: 420px; }
+@media (max-width: 1000px) {
+  .layout { grid-template-columns: 1fr; }
+  .editor-card { position: static; height: 60vh; }
+}
+
+.file-item { display: flex; gap: 8px; align-items: center; padding: 8px; border-radius: 8px; cursor: pointer; font-size: 13px; border-bottom: 1px solid var(--line); }
+.file-item.on { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.grade { width: 64px; height: 64px; border-radius: 14px; display: grid; place-items: center; font-size: 34px; font-weight: 800; color: #fff; background: var(--bad); }
+.grade.gA { background: var(--good); } .grade.gB { background: #5aa469; } .grade.gC { background: var(--warn); } .grade.gD { background: #e2703a; }
+.brow { display: grid; grid-template-columns: 200px 1fr 54px; gap: 10px; align-items: center; font-size: 13px; margin-bottom: 8px; }
+.err { color: var(--bad); font: 12px var(--mono); margin-top: 6px; }

@@ -1,0 +1,11 @@
+{
+  "scripts": [
+    "src/core.js"
+  ],
+  "npm": {
+    "acorn": "acorn"
+  },
+  "cdn": [
+    "https://cdnjs.cloudflare.com/ajax/libs/acorn/8.19.0/acorn.min.js"
+  ]
+}
