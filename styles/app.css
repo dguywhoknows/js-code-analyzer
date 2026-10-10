@@ -1,4 +1,4 @@
-:root { --accent: #2563eb; }
+:root { --accent: #2a6f97; }
 .layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 16px; max-width: 1400px; }
 .editor-card { display: flex; flex-direction: column; gap: 10px; height: calc(100vh - 110px); position: sticky; top: 86px; }
 .code-wrap { flex: 1; min-height: 0; display: flex; }

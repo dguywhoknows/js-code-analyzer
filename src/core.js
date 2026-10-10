@@ -1,4 +1,4 @@
-/* core.js — static analysis of JavaScript source (pure; needs the global `acorn` parser). */
+/* Static analysis of JavaScript source (pure; needs the global `acorn` parser). */
 var BRANCH = new Set(['IfStatement', 'ConditionalExpression', 'ForStatement', 'ForInStatement', 'ForOfStatement', 'WhileStatement', 'DoWhileStatement', 'CatchClause']);
 var NEST = new Set(['IfStatement', 'ForStatement', 'ForInStatement', 'ForOfStatement', 'WhileStatement', 'DoWhileStatement', 'SwitchStatement', 'TryStatement']);
 var isFn = (n) => n && /^(FunctionDeclaration|FunctionExpression|ArrowFunctionExpression)$/.test(n.type);

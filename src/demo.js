@@ -1,4 +1,4 @@
-/* demo.js — a small sample project for the multi-file pages. */
+/* A small sample project for the multi-file pages. */
 var DEMO_PROJECT = [
   { name: 'src/cart.js', src: `import { taxFor } from './tax.js';
 import { roundMoney, clamp } from './utils/money.js';

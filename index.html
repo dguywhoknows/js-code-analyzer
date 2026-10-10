@@ -3,81 +3,66 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Code Atlas: Understand any JavaScript in minutes, not hours</title>
-<meta name="description" content="A real parser maps functions, calls and complexity; AI explains, refactors and writes tests for the parts you point at.">
+<title>Code Atlas: Find the most complicated parts of a JavaScript codebase</title>
+<meta name="description" content="A real parser measures every function&#x27;s complexity, nesting and size and draws the call graph. Point at a function to get an explanation, a refactor, unit tests or a bug review.">
 <meta property="og:title" content="Code Atlas">
-<meta property="og:description" content="A real parser maps functions, calls and complexity; AI explains, refactors and writes tests for the parts you point at.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232563eb'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='Arial,Helvetica,sans-serif' font-weight='700' font-size='13' fill='white'%3ECA%3C/text%3E%3C/svg%3E">
+<meta property="og:description" content="A real parser measures every function&#x27;s complexity, nesting and size and draws the call graph. Point at a function to get an explanation, a refactor, unit tests or a bug review.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232a6f97'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='19' fill='white'%3EC%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style id="type">:root { --font-head: 'IBM Plex Sans', system-ui, sans-serif; --font-body: 'IBM Plex Sans', system-ui, sans-serif; }</style>
 <link rel="stylesheet" href="styles/base.css">
 <link rel="stylesheet" href="styles/landing.css">
-<style>:root { --accent: #2563eb; }</style>
+<style>:root { --accent: #2a6f97; }</style>
 </head>
 <body class="landing">
-<header class="l-nav">
-  <a class="l-brand" href="#top"><span class="logo">CA</span><b>Code Atlas</b></a>
-  <nav aria-label="Sections"><a href="#demo">Demo</a><a href="#ask">Ask it</a><a href="#features">Features</a><a href="#faq">FAQ</a></nav>
-  <div class="l-nav-cta"><a class="btn ghost" href="login.html">Log in</a><a class="btn primary" href="login.html">Get started free</a></div>
-</header>
+<header class="l-nav"><div class="l-wrap l-nav-in">
+  <a class="l-brand" href="#top">Code Atlas</a>
+  <nav aria-label="Sections"><a href="#demo">Try it</a><a href="#ask">Commands</a><a href="#features">Features</a><a href="https://github.com/dguywhoknows/js-code-analyzer" rel="noopener">Source</a></nav>
+  <div class="l-nav-cta"><a class="btn ghost" href="login.html">Log in</a><a class="btn primary" href="login.html">Sign up free</a></div>
+</div></header>
 
 <main id="top">
-  <section class="l-hero">
-    <p class="l-kicker">Free · runs in your browser · AI built in</p>
-    <h1>Understand any JavaScript in minutes, not hours.</h1>
-    <p class="l-sub">A real parser maps functions, calls and complexity; AI explains, refactors and writes tests for the parts you point at.</p>
-    <div class="l-actions"><a class="btn primary big" href="login.html">Get started free</a><a class="btn big" href="#demo">See it working</a></div>
+  <section class="l-wrap l-hero">
+    <h1>Find the most complicated parts of a JavaScript codebase.</h1>
+    <p class="l-sub">A real parser measures every function&#x27;s complexity, nesting and size and draws the call graph. Point at a function to get an explanation, a refactor, unit tests or a bug review.</p>
+    <div class="l-actions"><a class="btn primary big" href="login.html">Sign up free</a><a class="l-link" href="#demo">Or try it on this page</a></div>
+    <p class="l-meta">Version 2.0.0 · MIT license · <a href="https://github.com/dguywhoknows/js-code-analyzer" rel="noopener">github.com/dguywhoknows/js-code-analyzer</a></p>
   </section>
 
-  <section class="l-demo reveal" id="demo">
-    <div class="l-window"><div class="l-window-bar"><i></i><i></i><i></i><span>Code Atlas</span></div>
-      <iframe src="app.html?embed=1" title="Code Atlas live demo" loading="lazy"></iframe></div>
-    <p class="l-caption">This is the real app running below, not a recording. Try it.</p>
+  <section class="l-wrap l-demo" id="demo">
+    <div class="l-frame"><iframe src="app.html?embed=1" title="Code Atlas" loading="lazy"></iframe></div>
+    <p class="l-caption">The app itself, running inside this page. Anything you do here is saved in your browser.</p>
   </section>
 
-  <section class="l-section reveal" id="ask">
-    <div class="l-head"><p class="l-kicker">Just say what you want</p><h2>Tell it in plain words. It uses its own tools to do it.</h2>
-      <p>Open the AI box in the app, type a request, and the AI drives the app's real features for you: it sets things up, edits, runs and reports back. Standing instructions let you shape every AI feature to how you like to work.</p></div>
-    <div class="l-prompts"><div class="l-prompt"><div class="say">Which function is the most complex and why?</div><div class="does">Reads the metrics and explains the hotspot.</div></div><div class="l-prompt"><div class="say">Write unit tests for the parse function</div><div class="does">Generates tests for that function.</div></div><div class="l-prompt"><div class="say">Refactor the longest function into smaller ones</div><div class="does">Proposes a refactor you can compare and copy.</div></div></div>
+  <section class="l-wrap l-section" id="ask">
+    <h2>Ask it to do things</h2>
+    <p class="l-lead">Press Ctrl+K in the app (Cmd+K on a Mac) and describe what you want. The model chooses from Code Atlas's own functions, runs them in order and tells you what changed. Some examples:</p>
+    <table class="l-cmds"><tr><td class="say">Which function is the most complex and why?</td><td>Reads the metrics and explains the hotspot.</td></tr><tr><td class="say">Write unit tests for the parse function</td><td>Generates tests for that function.</td></tr><tr><td class="say">Refactor the longest function into smaller ones</td><td>Proposes a refactor you can compare and copy.</td></tr></table>
+    <p class="l-small">Instructions you save in the same box, such as "keep it short" or "I'm a beginner", are added to every AI request the app makes.</p>
   </section>
 
-  <section class="l-section reveal" id="features">
-    <div class="l-head"><p class="l-kicker">What it does</p><h2>Everything in one place</h2></div>
-    <div class="l-grid"><div class="l-card"><h3>AST-based function discovery</h3><p>Declarations, arrows, class methods, object methods, exports</p></div><div class="l-card"><h3>Per-function cyclomatic complexity</h3><p>Per-function cyclomatic complexity, max nesting, params, returns, LOC, Halstead volume, maintainability index</p></div><div class="l-card"><h3>Call-graph resolution</h3><p>Call-graph resolution (direct, method and this.* calls) rendered as a force-directed SVG graph</p></div><div class="l-card"><h3>Local lint</h3><p>High complexity, deep nesting, long functions, too many params, never-called code</p></div><div class="l-card"><h3>Token-accurate syntax highlighting</h3><p>Token-accurate syntax highlighting with line focus on the selected function</p></div><div class="l-card"><h3>AI</h3><p>Explain, refactor, Jest tests, bug hunt, plus a whole-module architecture summary</p></div><div class="l-card"><h3>Project page</h3><p>Analyze many files at once (paste, upload or edit), with a layered import graph and cross-file call resolution through ES module imports</p></div><div class="l-card"><h3>Report page</h3><p>A-F health grade with score breakdown, complexity histogram, size-weighted hotspots, issue list, Markdown export and an AI refactoring summary</p></div><div class="l-card"><h3>History page</h3><p>Snapshot the project over time and chart health score and average complexity trends</p></div></div>
+  <section class="l-wrap l-section" id="features">
+    <h2>Features</h2>
+    <dl class="l-feats"><div><dt>AST-based function discovery</dt><dd>Declarations, arrows, class methods, object methods, exports.</dd></div><div><dt>Per-function cyclomatic complexity</dt><dd>Max nesting, params, returns, LOC, Halstead volume, maintainability index.</dd></div><div><dt>Call-graph resolution</dt><dd>Direct, method and this.* calls) rendered as a force-directed SVG graph.</dd></div><div><dt>Local lint</dt><dd>High complexity, deep nesting, long functions, too many params, never-called code.</dd></div><div><dt>Token-accurate syntax highlighting</dt><dd>With line focus on the selected function.</dd></div><div><dt>AI</dt><dd>Explain, refactor, Jest tests, bug hunt, plus a whole-module architecture summary.</dd></div><div><dt>Project page</dt><dd>Analyze many files at once (paste, upload or edit), with a layered import graph and cross-file call resolution through ES module imports.</dd></div><div><dt>Report page</dt><dd>A-F health grade with score breakdown, complexity histogram, size-weighted hotspots, issue list, Markdown export and an AI refactoring summary.</dd></div><div><dt>History page</dt><dd>Snapshot the project over time and chart health score and average complexity trends.</dd></div></dl>
   </section>
 
-  <section class="l-section reveal">
-    <div class="l-head"><p class="l-kicker">How it works</p><h2>Real engines where it counts, AI where it helps</h2></div>
-    <div class="l-steps">
-      <div><span>1</span><h3>Create a free account</h3><p>One account works across every app on this site.</p></div>
-      <div><span>2</span><h3>Ask in your own words</h3><p>Type or click. The AI handles function-level prompts enriched with static-analysis context (complexity, callers, callees); module-level architecture summary from metrics + source.</p></div>
-      <div><span>3</span><h3>Keep what you make</h3><p>Your work is saved in your browser and can be exported any time.</p></div>
-    </div>
-    <p class="l-note">Computed locally, with no AI involved: parsing, metrics, call-graph resolution, force layout, highlighting.</p>
+  <section class="l-wrap l-section l-split">
+    <div><h2>Runs in your browser</h2><p>Parsing, metrics, call-graph resolution, force layout, highlighting. None of this needs a network connection or a model.</p></div>
+    <div><h2>Uses a language model for</h2><p>Function-level prompts enriched with static-analysis context (complexity, callers, callees). Module-level architecture summary from metrics + source.</p></div>
   </section>
 
-  <section class="l-section reveal" id="faq">
-    <div class="l-head"><p class="l-kicker">Questions</p><h2>Good to know</h2></div>
-    <div class="l-faq">
-      <details><summary>Is it free?</summary><p>Yes. Every feature is free. Each account gets a daily allowance of AI requests.</p></details>
-      <details><summary>Where is my data stored?</summary><p>What you create stays in this browser on this device. Your account is only used to sign you in and to use the built-in AI. You can export a backup or delete everything from Settings.</p></details>
-      <details><summary>Do I need an API key?</summary><p>No. Signed-in users get the built-in AI with nothing to set up. You can also connect your own Groq or OpenRouter key in Settings if you prefer.</p></details>
-      <details><summary>What can I type into the AI box?</summary><p>Anything you would ask a helpful colleague who knows the app, such as: "Which function is the most complex and why?". It plans the steps, runs the app's own functions and tells you what it did. The Instructions tab saves preferences every AI feature follows.</p></details>
-      <details><summary>Can I see the code?</summary><p>Yes. It is open source under the MIT license on <a href="https://github.com/dguywhoknows/js-code-analyzer" rel="noopener">GitHub</a>, with a <a href="tests/">public test suite</a>.</p></details>
-    </div>
-  </section>
-
-  <section class="l-final reveal">
-    <h2>Understand any JavaScript in minutes, not hours.</h2>
-    <a class="btn primary big" href="login.html">Get started free</a>
+  <section class="l-wrap l-section" id="notes">
+    <h2>Notes</h2>
+    <dl class="l-notes">
+      <dt>Cost</dt><dd>Free. Each account has a daily allowance of AI requests.</dd>
+      <dt>Your data</dt><dd>What you make stays in this browser on this device. Your account is only used for signing in and for the built-in AI. You can export a backup or clear everything from Settings.</dd>
+      <dt>AI access</dt><dd>Signed-in users get the built-in AI with nothing to set up. You can also use your own Groq or OpenRouter key under Settings.</dd>
+      <dt>Source</dt><dd>The code and tests are on <a href="https://github.com/dguywhoknows/js-code-analyzer" rel="noopener">GitHub</a> under the MIT license. The tests also run <a href="tests/">in your browser</a>.</dd>
+    </dl>
   </section>
 </main>
 
-<footer class="l-foot"><span>Code Atlas</span><span><a href="https://github.com/dguywhoknows/js-code-analyzer" rel="noopener">Source</a> · <a href="tests/">Tests</a> · MIT license</span></footer>
-<script>
-document.querySelectorAll('.reveal').forEach((el) => el.classList.add('pre'));
-const io = new IntersectionObserver((es) => es.forEach((x) => { if (x.isIntersecting) { x.target.classList.remove('pre'); io.unobserve(x.target); } }), { threshold: 0.12 });
-document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
-</script>
+<footer class="l-foot"><div class="l-wrap l-foot-in"><span>Code Atlas, by <a href="https://github.com/dguywhoknows" rel="noopener">dguywhoknows</a></span><span><a href="https://github.com/dguywhoknows/js-code-analyzer" rel="noopener">Source</a> · <a href="tests/">Tests</a> · <a href="login.html">Sign up free</a></span></div></footer>
 </body>
 </html>
