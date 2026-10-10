@@ -3,94 +3,81 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Code Atlas</title>
-<meta name="description" content="Paste JavaScript to get a live call graph, complexity metrics and AI explanations, refactors and unit tests.">
-<meta name="app-repo" content="https://github.com/dguywhoknows/js-code-analyzer">
-<meta name="app-version" content="2.0.0">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232563eb'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='Arial%2CHelvetica%2Csans-serif' font-weight='700' font-size='13' fill='white'%3ECA%3C/text%3E%3C/svg%3E">
+<title>Code Atlas: Understand any JavaScript in minutes, not hours</title>
+<meta name="description" content="A real parser maps functions, calls and complexity; AI explains, refactors and writes tests for the parts you point at.">
+<meta property="og:title" content="Code Atlas">
+<meta property="og:description" content="A real parser maps functions, calls and complexity; AI explains, refactors and writes tests for the parts you point at.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232563eb'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='Arial,Helvetica,sans-serif' font-weight='700' font-size='13' fill='white'%3ECA%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles/base.css">
-<link rel="stylesheet" href="styles/app.css">
+<link rel="stylesheet" href="styles/landing.css">
+<style>:root { --accent: #2563eb; }</style>
 </head>
-<body>
-<header class="topbar">
-  <div class="brand"><span class="logo" aria-hidden="true">CA</span><div><h1>Code Atlas</h1><p>Map any JavaScript file: call graph, complexity, and an AI pair reviewer.</p></div></div>
-  <nav class="topnav" data-nav aria-label="Pages"></nav>
-  <div class="top-actions"><a class="btn ghost sm" href="https://github.com/dguywhoknows/js-code-analyzer" target="_blank" rel="noopener">GitHub</a><span data-ai-badge></span></div>
+<body class="landing">
+<header class="l-nav">
+  <a class="l-brand" href="#top"><span class="logo">CA</span><b>Code Atlas</b></a>
+  <nav aria-label="Sections"><a href="#demo">Demo</a><a href="#ask">Ask it</a><a href="#features">Features</a><a href="#faq">FAQ</a></nav>
+  <div class="l-nav-cta"><a class="btn primary" href="app.html">Open the app</a></div>
 </header>
-<div class="page active" data-page="analyze" data-title="Analyze">
-<main class="layout">
-  <section class="card editor-card">
-    <div class="row between"><h2 style="margin:0">Source</h2><div class="row"><label class="btn sm" style="color:var(--text)">Open .js<input type="file" id="file" accept=".js,.mjs,.cjs,.jsx,.ts" hidden></label><button class="btn sm primary" id="analyze">Analyze</button></div></div>
-    <div class="code-wrap">
-      <textarea id="src" spellcheck="false" class="mono"></textarea>
-      <pre id="view" class="code hidden" aria-label="Highlighted source"></pre>
-    </div>
-    <div class="row small muted"><span id="parseStatus">Parsed with acorn (ES2024, module)</span><span class="grow"></span><button class="btn ghost sm" id="toggleView">Edit</button></div>
+
+<main id="top">
+  <section class="l-hero">
+    <p class="l-kicker">Free · runs in your browser · AI built in</p>
+    <h1>Understand any JavaScript in minutes, not hours.</h1>
+    <p class="l-sub">A real parser maps functions, calls and complexity; AI explains, refactors and writes tests for the parts you point at.</p>
+    <div class="l-actions"><a class="btn primary big" href="app.html">Open the app</a><a class="btn big" href="#demo">See it working</a></div>
   </section>
-  <section class="stack">
-    <div class="grid cols-3" id="tiles"></div>
-    <div class="card">
-      <div class="row between"><h2 style="margin:0">Call graph</h2><span class="small muted">node size = complexity · click a node</span></div>
-      <svg id="graph" class="graph" aria-label="Call graph"></svg>
+
+  <section class="l-demo reveal" id="demo">
+    <div class="l-window"><div class="l-window-bar"><i></i><i></i><i></i><span>Code Atlas</span></div>
+      <iframe src="app.html?embed=1" title="Code Atlas live demo" loading="lazy"></iframe></div>
+    <p class="l-caption">This is the real app running below, not a recording. Try it.</p>
+  </section>
+
+  <section class="l-section reveal" id="ask">
+    <div class="l-head"><p class="l-kicker">Just say what you want</p><h2>Tell it in plain words. It uses its own tools to do it.</h2>
+      <p>Open the AI box in the app, type a request, and the AI drives the app's real features for you: it sets things up, edits, runs and reports back. Standing instructions let you shape every AI feature to how you like to work.</p></div>
+    <div class="l-prompts"><div class="l-prompt"><div class="say">Which function is the most complex and why?</div><div class="does">Reads the metrics and explains the hotspot.</div></div><div class="l-prompt"><div class="say">Write unit tests for the parse function</div><div class="does">Generates tests for that function.</div></div><div class="l-prompt"><div class="say">Refactor the longest function into smaller ones</div><div class="does">Proposes a refactor you can compare and copy.</div></div></div>
+  </section>
+
+  <section class="l-section reveal" id="features">
+    <div class="l-head"><p class="l-kicker">What it does</p><h2>Everything in one place</h2></div>
+    <div class="l-grid"><div class="l-card"><h3>AST-based function discovery</h3><p>Declarations, arrows, class methods, object methods, exports</p></div><div class="l-card"><h3>Per-function cyclomatic complexity</h3><p>Per-function cyclomatic complexity, max nesting, params, returns, LOC, Halstead volume, maintainability index</p></div><div class="l-card"><h3>Call-graph resolution</h3><p>Call-graph resolution (direct, method and this.* calls) rendered as a force-directed SVG graph</p></div><div class="l-card"><h3>Local lint</h3><p>High complexity, deep nesting, long functions, too many params, never-called code</p></div><div class="l-card"><h3>Token-accurate syntax highlighting</h3><p>Token-accurate syntax highlighting with line focus on the selected function</p></div><div class="l-card"><h3>AI</h3><p>Explain, refactor, Jest tests, bug hunt, plus a whole-module architecture summary</p></div><div class="l-card"><h3>Project page</h3><p>Analyze many files at once (paste, upload or edit), with a layered import graph and cross-file call resolution through ES module imports</p></div><div class="l-card"><h3>Report page</h3><p>A-F health grade with score breakdown, complexity histogram, size-weighted hotspots, issue list, Markdown export and an AI refactoring summary</p></div><div class="l-card"><h3>History page</h3><p>Snapshot the project over time and chart health score and average complexity trends</p></div></div>
+  </section>
+
+  <section class="l-section reveal">
+    <div class="l-head"><p class="l-kicker">How it works</p><h2>Real engines where it counts, AI where it helps</h2></div>
+    <div class="l-steps">
+      <div><span>1</span><h3>Open the app</h3><p>No sign-up needed right now. Everything runs in your browser.</p></div>
+      <div><span>2</span><h3>Ask in your own words</h3><p>Type or click. The AI handles function-level prompts enriched with static-analysis context (complexity, callers, callees); module-level architecture summary from metrics + source.</p></div>
+      <div><span>3</span><h3>Keep what you make</h3><p>Your work is saved in your browser and can be exported any time.</p></div>
     </div>
-    <div class="card">
-      <h2>Functions</h2>
-      <div class="table-wrap"><table id="fnTable"></table></div>
-    </div>
-    <div class="card" id="fnPanel">
-      <div class="empty">Select a function to explain it, get refactoring ideas, or generate unit tests.</div>
+    <p class="l-note">Computed locally, with no AI involved: parsing, metrics, call-graph resolution, force layout, highlighting.</p>
+  </section>
+
+  <section class="l-section reveal" id="faq">
+    <div class="l-head"><p class="l-kicker">Questions</p><h2>Good to know</h2></div>
+    <div class="l-faq">
+      <details><summary>Is it free?</summary><p>Yes. Every feature is free. </p></details>
+      <details><summary>Where is my data stored?</summary><p>What you create stays in this browser on this device. You can export a backup or delete everything from Settings.</p></details>
+      <details><summary>Do I need an API key?</summary><p>Not to try it: the app runs in demo mode with sample AI output. For live AI, connect a free Groq or OpenRouter key in Settings.</p></details>
+      <details><summary>What can I type into the AI box?</summary><p>Anything you would ask a helpful colleague who knows the app, such as: "Which function is the most complex and why?". It plans the steps, runs the app's own functions and tells you what it did. The Instructions tab saves preferences every AI feature follows.</p></details>
+      <details><summary>Can I see the code?</summary><p>Yes. It is open source under the MIT license on <a href="https://github.com/dguywhoknows/js-code-analyzer" rel="noopener">GitHub</a>, with a <a href="tests/">public test suite</a>.</p></details>
     </div>
   </section>
-</main>
-</div>
-<div class="page" data-page="project" data-title="Project">
-<main class="stack" style="max-width:1400px">
-  <div class="kpis" id="projKpis"></div>
-  <div class="grid side">
-    <div class="card stack">
-      <div class="row between"><h2 style="margin:0">Files</h2><div class="row"><button class="btn sm" id="addFile">+ File</button><label class="btn sm" style="color:var(--text)">Upload<input type="file" id="uploadFiles" accept=".js,.mjs,.cjs,.jsx" multiple hidden></label></div></div>
-      <div id="fileList"></div>
-      <button class="btn ghost sm" id="resetProject">Load sample project</button>
-    </div>
-    <div class="stack">
-      <div class="card"><h2>Import graph</h2><svg id="importGraph" class="graph" style="height:300px" aria-label="Import graph"></svg><div id="projErrors"></div></div>
-      <div class="card stack">
-        <div class="row"><input class="input mono grow" id="fileName" aria-label="File path"><button class="btn primary sm" id="saveFile">Save &amp; analyze</button><button class="btn ghost sm danger" id="delFile">Remove</button></div>
-        <textarea id="fileSrc" class="mono" spellcheck="false" style="min-height:320px;font-size:12.5px"></textarea>
-      </div>
-    </div>
-  </div>
-</main>
-</div>
 
-<div class="page" data-page="report" data-title="Report">
-<main class="stack">
-  <div class="grid cols-2">
-    <div class="card stack"><div class="row" id="grade"></div><div id="breakdown"></div></div>
-    <div class="card"><h2>Complexity distribution</h2><div id="ccHist"></div></div>
-  </div>
-  <div class="card"><div class="row between"><h2 style="margin:0">Hotspots</h2><div class="row"><button class="btn sm" id="aiSummary">AI summary</button><button class="btn sm ghost" id="exportReport">Export Markdown</button></div></div><div id="aiOut" class="prose" style="margin-top:10px"></div><div class="table-wrap" id="hotspots"></div></div>
-  <div class="card"><h2>Issues</h2><div id="issueList"></div></div>
+  <section class="l-final reveal">
+    <h2>Understand any JavaScript in minutes, not hours.</h2>
+    <a class="btn primary big" href="app.html">Open the app</a>
+  </section>
 </main>
-</div>
 
-<div class="page" data-page="history" data-title="History">
-<main class="stack">
-  <div class="page-head"><div><h2>Health over time</h2><p>Snapshot the project after changes to track whether it is getting simpler.</p></div><button class="btn primary" id="takeSnap">Take snapshot</button></div>
-  <div class="card"><div id="trend"></div></div>
-  <div class="card table-wrap" id="snapList"></div>
-</main>
-</div>
-
-<div class="page" data-page="settings" data-title="Settings"></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/acorn/8.19.0/acorn.min.js"></script>
-<script src="src/lib/dom.js"></script>
-<script src="src/lib/ai.js"></script>
-<script src="src/lib/router.js"></script>
-<script src="src/core.js"></script>
-<script src="src/demo.js"></script>
-<script src="src/app.js"></script>
+<footer class="l-foot"><span>Code Atlas</span><span><a href="https://github.com/dguywhoknows/js-code-analyzer" rel="noopener">Source</a> · <a href="tests/">Tests</a> · MIT license</span></footer>
+<script>
+document.querySelectorAll('.reveal').forEach((el) => el.classList.add('pre'));
+const io = new IntersectionObserver((es) => es.forEach((x) => { if (x.isIntersecting) { x.target.classList.remove('pre'); io.unobserve(x.target); } }), { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+</script>
 </body>
 </html>

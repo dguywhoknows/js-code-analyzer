@@ -158,14 +158,14 @@ function run() {
   try {
     model = analyze(src);
     selected = null;
-    $('#parseStatus').textContent = `Parsed ${model.toks.length.toLocaleString()} tokens with acorn ✓`;
+    $('#parseStatus').textContent = `Parsed ${model.toks.length.toLocaleString()} tokens with acorn`;
     renderAll();
     setView(true);
     const out = h('div', { class: 'prose', style: 'margin-top:12px' });
     $('#fnPanel').innerHTML = '';
     $('#fnPanel').append(h('div', { class: 'row between' }, h('h2', { style: 'margin:0' }, 'Module overview'), h('button', { class: 'btn sm primary', onclick: (e) => busy(e.currentTarget, () => moduleSummary(out)) }, 'AI architecture summary')), h('p', { class: 'small muted', style: 'margin-top:8px' }, 'Or pick a function in the table or graph.'), out);
   } catch (e) {
-    $('#parseStatus').textContent = '⚠ ' + e.message;
+    $('#parseStatus').textContent = 'Parse error: ' + e.message;
     toast('Parse error: ' + e.message, 'err');
     setView(false);
   }
@@ -276,7 +276,7 @@ function renderProject() {
   const fns = projModel.fns, h1 = healthScore(fns);
   $('#projKpis').innerHTML = [['Files', project.length], ['Functions', fns.length], ['Lines', projModel.files.reduce((a, x) => a + (x.loc || 0), 0)], ['Imports', projModel.imports.length], ['Cross-file calls', projModel.crossCalls.length], ['Health', `${h1.grade} · ${h1.score}`]].map(([k, v]) => `<div class="stat"><div class="k">${k}</div><div class="v" style="font-size:18px">${v}</div></div>`).join('');
   drawImportGraph();
-  $('#projErrors').innerHTML = projModel.errors.map((e) => `<div class="err">⚠ ${esc(e.file)}: ${esc(e.message)}</div>`).join('');
+  $('#projErrors').innerHTML = projModel.errors.map((e) => `<div class="err">${esc(e.file)}: ${esc(e.message)}</div>`).join('');
 }
 function drawImportGraph() {
   const svg = $('#importGraph'), W = svg.clientWidth || 640, H = 300;
@@ -343,7 +343,7 @@ if (!snaps) {
 }
 function renderHistory() {
   const box = $('#snapList');
-  box.innerHTML = snaps.length ? `<table><tr><th>Date</th><th>Label</th><th>Grade</th><th>Functions</th><th>Avg CC</th><th>Max CC</th><th>Issues</th><th>Δ vs previous</th><th></th></tr>${snaps.map((s, i) => { const d = i ? compareSnapshots(snaps[i - 1], s) : null; return `<tr><td class="small">${new Date(s.date).toLocaleDateString()}</td><td>${esc(s.label)}</td><td><b>${s.grade}</b> <span class="small muted">${s.score}</span></td><td>${s.fns}</td><td>${s.avgCC}</td><td>${s.maxCC}</td><td>${s.issues}</td><td class="small">${d ? `<span style="color:${d.score >= 0 ? 'var(--good)' : 'var(--bad)'}">${d.score >= 0 ? '+' : ''}${d.score} score</span> · ${d.avgCC >= 0 ? '+' : ''}${d.avgCC} CC` : '—'}</td><td><button class="btn ghost sm" data-del="${s.id}" aria-label="Delete snapshot">✕</button></td></tr>`; }).join('')}</table>` : '<div class="empty">No snapshots yet.</div>';
+  box.innerHTML = snaps.length ? `<table><tr><th>Date</th><th>Label</th><th>Grade</th><th>Functions</th><th>Avg CC</th><th>Max CC</th><th>Issues</th><th>Δ vs previous</th><th></th></tr>${snaps.map((s, i) => { const d = i ? compareSnapshots(snaps[i - 1], s) : null; return `<tr><td class="small">${new Date(s.date).toLocaleDateString()}</td><td>${esc(s.label)}</td><td><b>${s.grade}</b> <span class="small muted">${s.score}</span></td><td>${s.fns}</td><td>${s.avgCC}</td><td>${s.maxCC}</td><td>${s.issues}</td><td class="small">${d ? `<span style="color:${d.score >= 0 ? 'var(--good)' : 'var(--bad)'}">${d.score >= 0 ? '+' : ''}${d.score} score</span> · ${d.avgCC >= 0 ? '+' : ''}${d.avgCC} CC` : '—'}</td><td><button class="btn ghost sm" data-del="${s.id}" aria-label="Delete snapshot">Delete</button></td></tr>`; }).join('')}</table>` : '<div class="empty">No snapshots yet.</div>';
   $$('#snapList [data-del]').forEach((b) => (b.onclick = () => { snaps = snaps.filter((s) => String(s.id) !== b.dataset.del); store.set('snapshots', snaps); renderHistory(); }));
   const W = 640, H = 180, n = snaps.length;
   if (n < 2) { $('#trend').innerHTML = '<p class="small muted">Take two or more snapshots to see a trend.</p>'; return; }
@@ -362,3 +362,19 @@ $('#takeSnap').onclick = () => {
 Router.on('project', runProject);
 Router.on('report', () => { projModel = analyzeProject(project); renderReport(); });
 Router.on('history', renderHistory);
+
+/* ================= AI command box ================= */
+const findFn = (name, fns = model.fns) => { const q = String(name).toLowerCase(); const f = fns.find((x) => x.short.toLowerCase() === q || x.name.toLowerCase() === q) || fns.find((x) => x.name.toLowerCase().includes(q)); if (!f) throw new Error(`No function "${name}". Functions: ${fns.map((x) => x.short).join(', ')}`); return f; };
+const fnAction = (kind, label) => ({ name: kind === 'tests' ? 'write_tests' : kind === 'bugs' ? 'bug_hunt' : kind + '_function', description: label, params: { function: 'function name' },
+  run: async ({ function: name }) => { Router.go('analyze'); const f = findFn(name); select(f); const out = $('#fnPanel .ai-out'); await aiAction(kind, f, out); return `${label} for ${f.name} is in the side panel`; } });
+Copilot.register({
+  context: () => model ? `Analyzed source: ${model.loc} lines, maintainability ${model.fileMI.toFixed(0)}/100. Functions: ${[...model.fns].sort((a, b) => b.cc - a.cc).map((f) => `${f.name} cc=${f.cc} depth=${f.maxDepth} loc=${f.loc}${f.issues.length ? ' issues: ' + f.issues.join('/') : ''}`).join('; ')}. Selected: ${selected?.name || 'none'}. Project has ${project.length} files.` : 'Nothing analyzed yet.',
+  actions: [
+    { name: 'analyze_code', description: 'Analyze JavaScript source (pasted by the user) or re-run on what is in the editor', params: { code: 'optional source code' }, run: ({ code }) => { Router.go('analyze'); if (code) $('#src').value = code; run(); return `${model.fns.length} functions, max complexity ${Math.max(0, ...model.fns.map((f) => f.cc))}`; } },
+    { name: 'select_function', description: 'Highlight a function and open its panel', params: { function: 'function name' }, run: ({ function: name }) => { Router.go('analyze'); const f = findFn(name); select(f); return `Selected ${f.name}`; } },
+    fnAction('explain', 'Explanation'), fnAction('refactor', 'Refactor proposal'), fnAction('tests', 'Unit tests'), fnAction('bugs', 'Bug hunt'),
+    { name: 'metrics', query: true, description: 'Look up per-function complexity, nesting, size, maintainability, calls and issues', params: {}, run: () => JSON.stringify([...model.fns].sort((a, b) => b.cc - a.cc).map((f) => ({ name: f.name, cc: f.cc, depth: f.maxDepth, loc: f.loc, mi: Math.round(f.mi), params: f.params, calls: [...f.edges].map((e) => e.short), calledBy: f.callers, issues: f.issues, code: model.src.slice(f.start, f.end).slice(0, 1200) }))) },
+    { name: 'project_report', query: true, description: 'Look up the multi-file project health grade, hotspots and import graph', params: {}, run: () => { projModel = analyzeProject(project); Router.go('report'); const hs = healthScore(projModel.fns); return JSON.stringify({ grade: hs.grade, score: hs.score, breakdown: hs.breakdown, hotspots: hotspots(projModel.fns, 8).map((f) => ({ name: f.name, file: f.file, cc: f.cc, loc: f.loc })), imports: projModel.imports, errors: projModel.errors }); } },
+    { name: 'snapshot', description: 'Save a project health snapshot to the history', params: { label: 'label' }, run: ({ label }) => { projModel = analyzeProject(project); snaps.push(snapshot(label || 'Snapshot ' + (snaps.length + 1), projModel.fns, projModel.files.reduce((a, x) => a + (x.loc || 0), 0))); store.set('snapshots', snaps); Router.go('history'); return 'Snapshot saved'; } },
+  ],
+});
